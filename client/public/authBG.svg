@@ -1,0 +1,17 @@
+<svg width="1440" height="700" viewBox="0 0 1440 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_185_286" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="1440" height="700">
+<rect width="1440" height="700" fill="white"/>
+</mask>
+<g mask="url(#mask0_185_286)">
+<rect width="1440" height="700" fill="white"/>
+<circle cx="224" cy="172" r="24" fill="#00FFB2"/>
+<circle cx="1084" cy="172" r="24" fill="#00E0FF"/>
+<rect x="120" y="-6" width="356" height="178" fill="#F8F8FF"/>
+<rect x="654" y="172" width="356" height="178" transform="rotate(90 654 172)" fill="#F8F8FF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M298 528V350L120 350L120 528V706H298H476V528H298Z" fill="#F8F8FF"/>
+<circle cx="1010" cy="622" r="24" fill="#4324FF"/>
+<rect x="1544" y="172" width="356" height="178" transform="rotate(90 1544 172)" fill="#F8F8FF"/>
+<rect x="1366" y="706" width="356" height="178" transform="rotate(-180 1366 706)" fill="#F8F8FF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M1010 350L1188 350L1188 172L1010 172L832 172L832 350L832 528L1010 528L1010 350Z" fill="#F8F8FF"/>
+</g>
+</svg>
