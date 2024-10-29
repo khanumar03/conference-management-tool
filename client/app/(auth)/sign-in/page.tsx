@@ -3,7 +3,7 @@
 import { SignInCard } from "@/components/auth/components/SignInCard";
 
 const SignInPage = () => {
-    return <SignInCard />
-}
- 
+  return <SignInCard />;
+};
+
 export default SignInPage;
