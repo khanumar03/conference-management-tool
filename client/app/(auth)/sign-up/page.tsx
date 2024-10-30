@@ -3,8 +3,7 @@
 import { SignUpCard } from "@/components/auth/components/SignUpCard";
 
 const SignUpPage = () => {
-    return <SignUpCard />
-    
-}
- 
+  return <SignUpCard />;
+};
+
 export default SignUpPage;
