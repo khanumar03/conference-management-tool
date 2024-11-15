@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { set, z } from "zod";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
@@ -20,29 +20,32 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { useRouter } from "next/navigation";
+import { registerSchema } from "@/schema";
+// import { registerSchema } from "@/server/routes/user";
+import { trpc } from "@/server/client";
+import { useState } from "react";
 
-const formSchema = z.object({
-  fName: z.string().trim().min(1, "Required"),
-  lName: z.string().trim().min(1, "Required"),
-  orgName: z.string().trim().min(1, "Required"),
-  email: z.string().trim().email(),
-  password: z.string().trim().min(8, "Minimum 8 characters required").max(256),
-});
 
 export const SignUpCard = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const router = useRouter()
+  const [error, setError] = useState<string | undefined>(undefined)
+  const mutation = trpc.user.register.useMutation()
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
-      fName: "",
-      lName: "",
-      orgName: "",
+      first_name: "",
+      last_name: "",
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log({ values });
+  const onSubmit = async (values: z.infer<typeof registerSchema>) => {
+      console.log(values);
+      mutation.mutate(values)
+     if(mutation.isSuccess) router.replace("/sign-in")
+    if(mutation.isError) setError(mutation.error.message)
   };
 
   return (
@@ -68,7 +71,7 @@ export const SignUpCard = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="flex flex-row gap-2">
               <FormField
-                name="fName"
+                name="first_name"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
@@ -84,7 +87,7 @@ export const SignUpCard = () => {
                 )}
               />
               <FormField
-                name="lName"
+                name="last_name"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
@@ -100,7 +103,7 @@ export const SignUpCard = () => {
                 )}
               />
             </div>
-            <FormField
+            {/* <FormField
               name="orgName"
               control={form.control}
               render={({ field }) => (
@@ -115,7 +118,7 @@ export const SignUpCard = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               name="email"
               control={form.control}
@@ -148,6 +151,7 @@ export const SignUpCard = () => {
                 </FormItem>
               )}
             />
+            {error && <p>{error}</p>}
             <Button disabled={false} size="lg" className="w-full">
               Sign Up
             </Button>

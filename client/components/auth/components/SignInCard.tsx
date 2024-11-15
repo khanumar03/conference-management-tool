@@ -2,7 +2,6 @@ import Link from "next/link";
 import { z } from "zod";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import DottedSeparator from "@/components/dotted-separator";
 import { Button } from "@/components/ui/button";
@@ -15,23 +14,28 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-
-const formSchema = z.object({
-  email: z.string().trim().email(),
-  password: z.string().min(1, "Required").max(256),
-});
+import { trpc } from "@/server/client";
+import { signIn } from "@/auth";
+import { LoginSchema } from "@/schema";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export const SignInCard = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const router = useRouter()
+  const [error, setError] = useState<string | undefined>(undefined);
+  const mutation = trpc.user.login.useMutation();
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log({ values });
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+      mutation.mutate(values)
+      if(mutation.isSuccess) router.replace("/")
+      if(mutation.isError) setError(mutation.error.message)
   };
 
   return (
@@ -77,6 +81,7 @@ export const SignInCard = () => {
                 </FormItem>
               )}
             />
+            {error && <p>{error}</p>}
             <Button disabled={false} size="lg" className="w-full">
               Login
             </Button>

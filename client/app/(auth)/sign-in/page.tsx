@@ -2,8 +2,8 @@
 
 import { SignInCard } from "@/components/auth/components/SignInCard";
 
-const SignInPage = () => {
+const page = () => {
   return <SignInCard />;
 };
 
-export default SignInPage;
+export default page;
